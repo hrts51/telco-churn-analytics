@@ -2,3 +2,4 @@
 __pycache__/
 .ipynb_checkpoints/
 data/raw/*.csv
+sql/telco_churn.db
