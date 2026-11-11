@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Telecom Customer Churn Analytics — Project Documentation</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Calibri, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #1a1a2e;
+      background: #f7f8fc;
+      padding: 0 0 60px 0;
+    }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 48px 60px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ── Cover band ── */
+    .cover {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+      color: #ffffff;
+      padding: 48px 60px 40px 60px;
+      margin: 0 0 40px 0;
+    }
+    .cover h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 10px;
+      color: #ffffff;
+      border: none;
+    }
+    .cover .meta {
+      font-size: 13px;
+      color: #a8c8e8;
+      line-height: 1.9;
+    }
+    .cover .meta span { margin-right: 20px; }
+
+    /* ── Headings ── */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 36px;
+      margin-bottom: 10px;
+    }
+    h1 { font-size: 24px; color: #0f3460; border-bottom: 3px solid #0f3460; padding-bottom: 8px; }
+    h2 { font-size: 19px; color: #16213e; border-bottom: 1px solid #d0d8e8; padding-bottom: 6px; }
+    h3 { font-size: 16px; color: #1a1a2e; }
+    h4 { font-size: 14px; color: #444; }
+
+    /* ── Paragraphs and lists ── */
+    p  { margin: 10px 0; }
+    ul, ol { margin: 10px 0 10px 24px; }
+    li { margin-bottom: 4px; }
+
+    /* ── Tables ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+      font-size: 13.5px;
+    }
+    thead tr { background: #0f3460; color: #ffffff; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 600; }
+    tbody tr:nth-child(even) { background: #f0f4fb; }
+    tbody tr:hover { background: #e3eaf7; }
+    td { padding: 8px 14px; border-bottom: 1px solid #dde3f0; vertical-align: top; }
+
+    /* ── Code blocks ── */
+    pre {
+      background: #1e2a3a;
+      color: #e8f0fe;
+      padding: 18px 22px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 12.5px;
+      line-height: 1.6;
+      margin: 14px 0;
+      border-left: 4px solid #4a90d9;
+    }
+    code {
+      font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+    }
+    p code, li code {
+      background: #eef2fb;
+      color: #0f3460;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+
+    /* ── Blockquote ── */
+    blockquote {
+      border-left: 4px solid #4a90d9;
+      background: #f0f5ff;
+      padding: 12px 20px;
+      margin: 14px 0;
+      color: #333;
+      font-style: italic;
+    }
+
+    /* ── Horizontal rule ── */
+    hr {
+      border: none;
+      border-top: 1px solid #d0d8e8;
+      margin: 32px 0;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: #f0f5ff;
+      border: 1px solid #c8d8f0;
+      border-radius: 6px;
+      padding: 20px 28px;
+      margin: 24px 0 32px 0;
+      font-size: 13.5px;
+    }
+    .toc ul { margin: 6px 0 0 16px; }
+    .toc li { margin-bottom: 3px; }
+    .toc a { color: #0f3460; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* ── Print ── */
+    @media print {
+      body { background: #fff; }
+      .page { box-shadow: none; padding: 20px; }
+      .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      pre { white-space: pre-wrap; word-break: break-all; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cover">
+    <h1>Telecom Customer Churn Analytics</h1>
+    <div class="meta">
+      <span>&#128100; Ankit Kumar</span>
+      <span>&#128202; IBM Telco Dataset &nbsp;|&nbsp; 7,043 customers</span>
+      <span>&#128279; github.com/hrts51/telco-churn-analytics</span>
+      <br/>
+      <span>&#128736; Python &nbsp;&#183;&nbsp; SQL &nbsp;&#183;&nbsp; Power BI &nbsp;&#183;&nbsp; Git</span>
+    </div>
+  </div>
+
+  <div class="page">
+    <h1 id="telecom-customer-churn-analytics-complete-project-documentation">Telecom Customer Churn Analytics — Complete Project Documentation</h1>
+<p><strong>Author:</strong> Ankit Kumar
+<strong>Dataset:</strong> IBM Telco Customer Churn (Kaggle)
+<strong>Tools:</strong> Python 3.14 · pandas · Matplotlib · Seaborn · SQLite · Power BI Desktop · Git
+<strong>Repository:</strong> https://github.com/hrts51/telco-churn-analytics</p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-project-objective">Project Objective</a></li>
+<li><a href="#2-dataset-description">Dataset Description</a></li>
+<li><a href="#3-project-structure">Project Structure</a></li>
+<li><a href="#4-environment-setup">Environment Setup</a></li>
+<li><a href="#5-data-cleaning">Data Cleaning</a></li>
+<li><a href="#6-exploratory-data-analysis">Exploratory Data Analysis</a></li>
+<li><a href="#7-financial-and-behavior-analysis">Financial and Behavior Analysis</a></li>
+<li><a href="#8-segmentation-and-risk-analysis">Segmentation and Risk Analysis</a></li>
+<li><a href="#9-sql-analysis">SQL Analysis</a></li>
+<li><a href="#10-power-bi-dashboard">Power BI Dashboard</a></li>
+<li><a href="#11-key-findings">Key Findings</a></li>
+<li><a href="#12-business-insights">Business Insights</a></li>
+<li><a href="#13-recommendations">Recommendations</a></li>
+<li><a href="#14-limitations">Limitations</a></li>
+<li><a href="#15-what-makes-this-project-unique">What Makes This Project Unique</a></li>
+<li><a href="#16-reproduction-steps">Reproduction Steps</a></li>
+<li><a href="#17-metric-definitions">Metric Definitions</a></li>
+<li><a href="#18-git-history">Git History</a></li>
+</ol>
+<hr />
+<h2 id="1-project-objective">1. Project Objective</h2>
+<p>Customer churn — when a subscriber cancels their telecom service — is a primary
+revenue risk. Acquiring a new customer typically costs significantly more than
+retaining an existing one, so understanding which customer and service attributes
+are associated with churn helps prioritise retention investment.</p>
+<p><strong>Primary objective:</strong>
+Analyse patterns in the IBM Telco Customer Churn dataset to identify which customer,
+service, and subscription attributes are most strongly associated with churn; quantify
+the monthly revenue exposure; and develop evidence-based retention recommendations.</p>
+<p><strong>Scope and constraints:</strong>
+- Descriptive and associative analysis only
+- Does not establish causation
+- Does not explain why any individual customer left
+- Does not constitute a predictive model
+- All findings are specific to this dataset</p>
+<hr />
+<h2 id="2-dataset-description">2. Dataset Description</h2>
+<p><strong>Source:</strong> IBM Telco Customer Churn dataset
+<strong>URL:</strong> https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+<strong>Raw file:</strong> <code>data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv</code>
+<strong>Clean file:</strong> <code>data/clean/telco_clean.csv</code></p>
+<p><strong>Size:</strong>
+- 7,043 customers (rows)
+- 21 original columns
+- 25 columns after cleaning (4 derived columns added)
+- 1,869 churned customers (Yes)
+- 5,174 retained customers (No)
+- Overall churn rate: 26.5%</p>
+<h3 id="original-columns">Original columns</h3>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>customerID</td>
+<td>Text</td>
+<td>Unique customer identifier</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>Text</td>
+<td>Male / Female</td>
+</tr>
+<tr>
+<td>SeniorCitizen</td>
+<td>Integer</td>
+<td>0 = Not senior, 1 = Senior</td>
+</tr>
+<tr>
+<td>Partner</td>
+<td>Text</td>
+<td>Has a partner: Yes / No</td>
+</tr>
+<tr>
+<td>Dependents</td>
+<td>Text</td>
+<td>Has dependents: Yes / No</td>
+</tr>
+<tr>
+<td>tenure</td>
+<td>Integer</td>
+<td>Months as a customer (0–72)</td>
+</tr>
+<tr>
+<td>PhoneService</td>
+<td>Text</td>
+<td>Has phone service: Yes / No</td>
+</tr>
+<tr>
+<td>MultipleLines</td>
+<td>Text</td>
+<td>Yes / No / No phone service</td>
+</tr>
+<tr>
+<td>InternetService</td>
+<td>Text</td>
+<td>DSL / Fiber optic / No</td>
+</tr>
+<tr>
+<td>OnlineSecurity</td>
+<td>Text</td>
+<td>Yes / No / No internet service</td>
+</tr>
+<tr>
+<td>OnlineBackup</td>
+<td>Text</td>
+<td>Yes / No / No internet service</td>
+</tr>
+<tr>
+<td>DeviceProtection</td>
+<td>Text</td>
+<td>Yes / No / No internet service</td>
+</tr>
+<tr>
+<td>TechSupport</td>
+<td>Text</td>
+<td>Yes / No / No internet service</td>
+</tr>
+<tr>
+<td>StreamingTV</td>
+<td>Text</td>
+<td>Yes / No / No internet service</td>
+</tr>
+<tr>
+<td>StreamingMovies</td>
+<td>Text</td>
+<td>Yes / No / No internet service</td>
+</tr>
+<tr>
+<td>Contract</td>
+<td>Text</td>
+<td>Month-to-month / One year / Two year</td>
+</tr>
+<tr>
+<td>PaperlessBilling</td>
+<td>Text</td>
+<td>Yes / No</td>
+</tr>
+<tr>
+<td>PaymentMethod</td>
+<td>Text</td>
+<td>Electronic check / Mailed check / Bank transfer (automatic) / Credit card (automatic)</td>
+</tr>
+<tr>
+<td>MonthlyCharges</td>
+<td>Float</td>
+<td>Current monthly bill in USD</td>
+</tr>
+<tr>
+<td>TotalCharges</td>
+<td>Text (raw) / Float (clean)</td>
+<td>Cumulative billed amount in USD</td>
+</tr>
+<tr>
+<td>Churn</td>
+<td>Text</td>
+<td>Yes = churned / No = retained</td>
+</tr>
+</tbody>
+</table>
+<h3 id="derived-columns-added-during-cleaning">Derived columns added during cleaning</h3>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SeniorCitizenLabel</td>
+<td>Text</td>
+<td>Map 0→"No", 1→"Yes"</td>
+<td>Readable display label</td>
+</tr>
+<tr>
+<td>ChurnFlag</td>
+<td>Integer</td>
+<td>1 if Churn="Yes" else 0</td>
+<td>Numeric flag for arithmetic</td>
+</tr>
+<tr>
+<td>CLV_Proxy</td>
+<td>Float</td>
+<td>MonthlyCharges × tenure</td>
+<td>Approximate historical revenue</td>
+</tr>
+<tr>
+<td>AddonCount</td>
+<td>Integer</td>
+<td>Count of 6 add-on columns = "Yes"</td>
+<td>Product embeddedness measure</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-project-structure">3. Project Structure</h2>
+<pre><code>telco-churn-analytics/
+│
+├── data/
+│   ├── raw/
+│   │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv   ← Git-ignored; download from Kaggle
+│   └── clean/
+│       └── telco_clean.csv                          ← 7,043 rows, 25 columns, 0 nulls
+│
+├── notebooks/
+│   ├── 01_data_understanding.ipynb                  ← load, inspect, clean, save
+│   ├── 02_eda.ipynb                                 ← exploratory analysis, 8 charts
+│   ├── 03_behavior_financial_analysis.ipynb         ← ARPU, CLV proxy, revenue, add-ons
+│   └── 04_segmentation_risk.ipynb                   ← segments, high-risk profile
+│
+├── sql/
+│   ├── churn_analysis.sql                           ← 30 verified SQLite queries
+│   ├── load_db.py                                   ← builds telco_churn.db from CSV
+│   └── telco_churn.db                               ← auto-generated; rebuild anytime
+│
+├── powerbi/
+│   ├── telco_churn_dashboard.pbix                   ← Power BI dashboard (4 pages)
+│   ├── dashboard_handover.md                        ← full dashboard documentation
+│   ├── dashboard_plan.md                            ← original design specification
+│   └── dax_measures.md                              ← all DAX formulas
+│
+├── report/
+│   ├── project_documentation.md                     ← this document
+│   ├── final_report.md                              ← written analysis report
+│   └── insights_and_recommendations.md              ← 10 insights + 5 recommendations
+│
+├── images/                                          ← 16 PNG charts from notebooks
+│   ├── 02_01_churn_by_contract.png
+│   ├── 02_02_churn_by_tenure.png
+│   ├── 02_03_churn_by_payment.png
+│   ├── 02_04_churn_by_internet.png
+│   ├── 02_05_churn_binary_features.png
+│   ├── 02_06_monthly_charges_vs_churn.png
+│   ├── 02_07_correlation_heatmap.png
+│   ├── 02_08_churn_heatmap_contract_internet.png
+│   ├── 03_01_arpu_analysis.png
+│   ├── 03_02_clv_proxy.png
+│   ├── 03_03_addon_count_vs_churn.png
+│   ├── 03_04_addon_adoption_comparison.png
+│   ├── 03_05_revenue_exposure_by_contract.png
+│   ├── 04_01_segment_risk_map.png
+│   ├── 04_02_high_risk_profile.png
+│   └── 04_03_top_churn_combinations.png
+│
+├── .gitignore
+├── requirements.txt
+└── README.md
+</code></pre>
+<hr />
+<h2 id="4-environment-setup">4. Environment Setup</h2>
+<p><strong>Requirements:</strong>
+- Python 3.14+
+- Git 2.50+
+- Power BI Desktop (for the dashboard)</p>
+<p><strong>Setup steps:</strong></p>
+<pre><code class="language-powershell"># Clone the repository
+git clone https://github.com/hrts51/telco-churn-analytics.git
+cd telco-churn-analytics
+
+# Create virtual environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# Install all dependencies
+python -m pip install -r requirements.txt
+</code></pre>
+<p><strong>Key packages installed:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Version</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pandas</td>
+<td>3.1.1</td>
+<td>Data manipulation</td>
+</tr>
+<tr>
+<td>numpy</td>
+<td>2.5.4</td>
+<td>Numerical operations</td>
+</tr>
+<tr>
+<td>matplotlib</td>
+<td>3.11.2</td>
+<td>Visualisation</td>
+</tr>
+<tr>
+<td>seaborn</td>
+<td>0.13.2</td>
+<td>Statistical charts</td>
+</tr>
+<tr>
+<td>jupyter</td>
+<td>1.1.1</td>
+<td>Notebook environment</td>
+</tr>
+<tr>
+<td>ipykernel</td>
+<td>7.4.0</td>
+<td>Jupyter kernel</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-data-cleaning">5. Data Cleaning</h2>
+<p><strong>Notebook:</strong> <code>notebooks/01_data_understanding.ipynb</code></p>
+<p>The raw data was loaded into <code>df</code>. All cleaning was applied to a separate copy <code>df_clean</code>
+so the original was always preserved for comparison.</p>
+<h3 id="what-was-inspected-first">What was inspected first</h3>
+<pre><code>Raw shape:   7,043 rows × 21 columns
+Duplicate customerIDs: 0
+Churned: 1,869  |  Retained: 5,174  |  Churn rate: 26.5%
+TotalCharges blank values: 11
+</code></pre>
+<h3 id="cleaning-decision-1-totalcharges-conversion">Cleaning decision 1 — TotalCharges conversion</h3>
+<p><strong>Problem:</strong> <code>TotalCharges</code> was stored as a text column in the raw CSV. 11 rows
+contained blank or whitespace values instead of a number.</p>
+<p><strong>Investigation:</strong> Every one of the 11 blank rows had <code>tenure = 0</code>, meaning these
+customers had just signed up and had not yet been billed for a full month.</p>
+<p><strong>Decision:</strong> Convert <code>TotalCharges</code> to float. Fill the 11 confirmed zero-tenure
+blanks with <code>0.0</code>. Do not drop any rows — these are valid, real customers.</p>
+<p><strong>Validation code run:</strong></p>
+<pre><code class="language-python">assert unexpected_invalid.sum() == 0      # no surprise non-numeric values
+assert df_clean.loc[blank_charges, &quot;tenure&quot;].eq(0).all()  # all blanks are tenure=0
+</code></pre>
+<p><strong>Result:</strong> 0 missing values in <code>TotalCharges</code> after cleaning.</p>
+<h3 id="cleaning-decision-2-seniorcitizenlabel">Cleaning decision 2 — SeniorCitizenLabel</h3>
+<p><strong>Problem:</strong> <code>SeniorCitizen</code> uses 0/1 encoding, which is not readable in charts.</p>
+<p><strong>Decision:</strong> Add <code>SeniorCitizenLabel</code> (No/Yes) alongside the original numeric
+column. Keep the original for arithmetic; use the label for display.</p>
+<h3 id="cleaning-decision-3-preserve-original-service-labels">Cleaning decision 3 — Preserve original service labels</h3>
+<p><strong>Decision:</strong> "No internet service" and "No phone service" labels were kept as-is.
+These values carry analytical meaning — a customer who has no internet service
+is fundamentally different from one who has internet but chose not to add security.
+Replacing these with blanks or a generic "No" would lose that distinction.</p>
+<h3 id="cleaning-decision-4-no-rows-dropped">Cleaning decision 4 — No rows dropped</h3>
+<p>All 7,043 customers were retained. No rows were removed for any reason.</p>
+<h3 id="clean-file-output">Clean file output</h3>
+<pre><code>Saved: data/clean/telco_clean.csv
+Shape: 7,043 rows × 25 columns
+Missing TotalCharges: 0
+Unique customerIDs: 7,043 (verified)
+</code></pre>
+<hr />
+<h2 id="6-exploratory-data-analysis">6. Exploratory Data Analysis</h2>
+<p><strong>Notebook:</strong> <code>notebooks/02_eda.ipynb</code>
+<strong>Charts produced:</strong> 8 (saved to <code>images/02_*.png</code>)</p>
+<p>The EDA notebook uses a parent-directory search to locate the clean CSV regardless
+of where the Jupyter kernel starts:</p>
+<pre><code class="language-python">project_root = next(
+    folder
+    for folder in [Path.cwd(), *Path.cwd().parents]
+    if (folder / &quot;data&quot; / &quot;clean&quot; / &quot;telco_clean.csv&quot;).exists()
+)
+</code></pre>
+<p>A <code>ChurnFlag</code> column (1=churned, 0=retained) is added at load time for arithmetic.</p>
+<h3 id="sections-covered">Sections covered</h3>
+<p><strong>Section 2 — Churn by contract type</strong>
+Group counts, churned counts, and churn rate per contract.
+Chart: dual view — rate bar + stacked volume bar.</p>
+<p><strong>Section 3 — Churn by tenure</strong>
+Annual tenure buckets (0–12, 13–24, 25–36, 37–48, 49–60, 61–72 months).
+Chart: rate by bucket + overlapping histogram by churn label.</p>
+<p><strong>Section 4 — Churn by payment method</strong>
+Four payment methods compared.
+Chart: horizontal bar with count annotations.</p>
+<p><strong>Section 5 — Churn by internet service</strong>
+Three service types compared alongside average monthly charges.
+Chart: dual bar — churn rate + average charges.</p>
+<p><strong>Section 6 — Churn by senior citizen status</strong>
+Senior vs non-senior rate and share of base.</p>
+<p><strong>Section 7 — Churn by binary features</strong>
+Partner, Dependents, PaperlessBilling, PhoneService.
+Chart: 4-panel grid with overall average reference line.</p>
+<p><strong>Section 8 — MonthlyCharges distribution</strong>
+Split by churn label.
+Chart: overlapping histogram + box plot.</p>
+<p><strong>Section 9 — Correlation matrix</strong>
+Pearson correlation for tenure, MonthlyCharges, TotalCharges, ChurnFlag.
+Explicit note: TotalCharges is mechanically correlated; ChurnFlag correlation
+is point-biserial.</p>
+<p><strong>Section 10 — Cross-tab heatmap</strong>
+Contract × InternetService — churn rate with cell counts annotated.</p>
+<p><strong>Section 11 — EDA findings summary</strong>
+Computed and printed in-notebook for quick reference.</p>
+<hr />
+<h2 id="7-financial-and-behavior-analysis">7. Financial and Behavior Analysis</h2>
+<p><strong>Notebook:</strong> <code>notebooks/03_behavior_financial_analysis.ipynb</code>
+<strong>Charts produced:</strong> 5 (saved to <code>images/03_*.png</code>)</p>
+<h3 id="key-metric-definitions-used">Key metric definitions used</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARPU</td>
+<td>AVG(MonthlyCharges) for a segment</td>
+</tr>
+<tr>
+<td>Revenue exposure</td>
+<td>SUM(MonthlyCharges) for churned customers</td>
+</tr>
+<tr>
+<td>Historical Billed Value</td>
+<td>TotalCharges as recorded in the dataset</td>
+</tr>
+<tr>
+<td>CLV Proxy</td>
+<td>MonthlyCharges × tenure — approximation only, not a prediction</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sections-covered_1">Sections covered</h3>
+<p><strong>Section 2 — Revenue exposure</strong>
+Total monthly revenue, monthly revenue from churned customers, percentage share.</p>
+<p><strong>Section 3 — ARPU analysis</strong>
+Mean, median, std for MonthlyCharges by churn label.
+ARPU by contract type × churn.</p>
+<p><strong>Section 4 — Historical billed value (CLV proxy)</strong>
+TotalCharges and CLV_Proxy compared by churn label.
+Key finding: churned customers paid more per month but left earlier.</p>
+<p><strong>Section 5 — Service add-on adoption</strong>
+AddonCount computed (Yes=1 across 6 services).
+Churn rate by number of add-ons.</p>
+<p><strong>Section 6 — Individual add-on adoption rates</strong>
+Per-service adoption rate for churned vs retained.</p>
+<p><strong>Section 7 — Revenue exposure by contract</strong>
+Monthly revenue lost broken down by contract type.</p>
+<p><strong>Section 8 — Financial summary</strong>
+Printed summary of all financial metrics.</p>
+<hr />
+<h2 id="8-segmentation-and-risk-analysis">8. Segmentation and Risk Analysis</h2>
+<p><strong>Notebook:</strong> <code>notebooks/04_segmentation_risk.ipynb</code>
+<strong>Charts produced:</strong> 3 (saved to <code>images/04_*.png</code>)</p>
+<h3 id="tenure-segments-3-level">Tenure segments (3-level)</h3>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Range</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New</td>
+<td>0–12 months</td>
+<td>Trial phase; highest churn risk</td>
+</tr>
+<tr>
+<td>Growing</td>
+<td>13–36 months</td>
+<td>Past first year; still forming habits</td>
+</tr>
+<tr>
+<td>Loyal</td>
+<td>37–72 months</td>
+<td>Established relationship</td>
+</tr>
+</tbody>
+</table>
+<h3 id="charge-segments-3-level">Charge segments (3-level)</h3>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Range</th>
+<th>Typical customer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low</td>
+<td>$0–$35</td>
+<td>Phone-only or no-internet plans</td>
+</tr>
+<tr>
+<td>Mid</td>
+<td>$35–$65</td>
+<td>Bundled plans</td>
+</tr>
+<tr>
+<td>High</td>
+<td>$65–$120</td>
+<td>Fiber Optic with add-ons</td>
+</tr>
+</tbody>
+</table>
+<h3 id="high-risk-segment-definition">High-risk segment definition</h3>
+<p><strong>Rule:</strong></p>
+<pre><code>HighRisk = 1  when:
+  Contract = &quot;Month-to-month&quot;   (Python/SQL version)
+  AND tenure &lt;= 12 months
+  AND MonthlyCharges &gt;= $65
+</code></pre>
+<p><strong>Power BI version (broadened by design):</strong></p>
+<pre><code>HighRisk = 1  when:
+  tenure &lt;= 12 months
+  AND MonthlyCharges &gt;= $65
+  (Contract condition removed — applies across all contract types)
+</code></pre>
+<p><strong>Why two definitions?</strong>
+The Python/SQL version was the original analytical definition used in notebooks.
+During Power BI development, the definition was deliberately broadened to allow
+comparison of high-risk customers across all contract types. Both are documented
+and consistent within their respective layers.</p>
+<h3 id="pythonsql-high-risk-segment-results">Python/SQL high-risk segment results</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customers in segment</td>
+<td>976 (13.9% of base)</td>
+</tr>
+<tr>
+<td>Churn rate</td>
+<td>67.7%</td>
+</tr>
+<tr>
+<td>Relative risk vs base</td>
+<td>2.6×</td>
+</tr>
+<tr>
+<td>Monthly revenue in segment</td>
+<td>$79,388</td>
+</tr>
+</tbody>
+</table>
+<h3 id="power-bi-high-risk-segment-results-broadened-definition">Power BI high-risk segment results (broadened definition)</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Customers in segment</td>
+<td>1,001</td>
+</tr>
+<tr>
+<td>Churn rate</td>
+<td>66.4%</td>
+</tr>
+<tr>
+<td>Monthly revenue in segment</td>
+<td>~$81K</td>
+</tr>
+</tbody>
+</table>
+<h3 id="top-combinations-by-churn-rate-min-50-customers">Top combinations by churn rate (min 50 customers)</h3>
+<p>The 3-way cross-tab (Contract × InternetService × PaymentMethod) with a minimum
+cell size of 50 customers identified the highest-risk combinations. The top result
+is Month-to-month + Fiber Optic + Electronic check at the highest churn rate.</p>
+<hr />
+<h2 id="9-sql-analysis">9. SQL Analysis</h2>
+<p><strong>File:</strong> <code>sql/churn_analysis.sql</code>
+<strong>Database:</strong> <code>sql/telco_churn.db</code> (SQLite)
+<strong>Loader:</strong> <code>sql/load_db.py</code>
+<strong>Total queries:</strong> 30 (all verified)</p>
+<h3 id="building-the-database">Building the database</h3>
+<pre><code class="language-powershell">python sql/load_db.py
+</code></pre>
+<p>This reads <code>data/clean/telco_clean.csv</code>, adds ChurnFlag, CLV_Proxy, and AddonCount
+columns, and loads everything into the <code>customers</code> table in <code>sql/telco_churn.db</code>.</p>
+<h3 id="query-groups">Query groups</h3>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Queries</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A — Overall baseline</td>
+<td>Q01–Q04</td>
+<td>Total customers, revenue, ARPU, tenure</td>
+</tr>
+<tr>
+<td>B — Categorical segments</td>
+<td>Q05–Q11</td>
+<td>Contract, internet, payment, senior, gender, billing, partner</td>
+</tr>
+<tr>
+<td>C — Tenure and charge buckets</td>
+<td>Q12–Q14</td>
+<td>CTE-based annual buckets, CASE charge tiers, strategic segments</td>
+</tr>
+<tr>
+<td>D — Revenue and financial</td>
+<td>Q15–Q18</td>
+<td>Revenue by contract/internet, CLV proxy, total billed value</td>
+</tr>
+<tr>
+<td>E — Add-on adoption</td>
+<td>Q19–Q20</td>
+<td>Churn by add-on count, per-service adoption rates</td>
+</tr>
+<tr>
+<td>F — High-risk and window functions</td>
+<td>Q21–Q25</td>
+<td>Cross-tabs, top combinations, RANK, running totals, % of total churn</td>
+</tr>
+<tr>
+<td>G — Additional analysis</td>
+<td>Q26–Q30</td>
+<td>High-risk segment, MTM no add-ons, e-check+MTM, new customers, reconciliation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reconciliation-query-q30">Reconciliation query (Q30)</h3>
+<p>Every analysis was verified against this baseline:</p>
+<pre><code class="language-sql">SELECT
+    COUNT(*)                                              AS total_customers,
+    SUM(ChurnFlag)                                        AS total_churned,
+    ROUND(1.0 * SUM(ChurnFlag) / COUNT(*) * 100, 1)      AS churn_rate_pct,
+    ROUND(SUM(MonthlyCharges), 2)                         AS total_monthly_revenue,
+    ROUND(AVG(tenure), 2)                                 AS avg_tenure_months,
+    ROUND(AVG(MonthlyCharges), 2)                         AS avg_monthly_charges,
+    ROUND(SUM(TotalCharges), 2)                           AS total_billed_all_time
+FROM customers;
+</code></pre>
+<p><strong>Expected output:</strong> total_customers=7043, total_churned=1869, churn_rate_pct=26.5</p>
+<p>All 30 queries execute without errors and all headline numbers match Python outputs.</p>
+<hr />
+<h2 id="10-power-bi-dashboard">10. Power BI Dashboard</h2>
+<p><strong>File:</strong> <code>powerbi/telco_churn_dashboard.pbix</code>
+<strong>Data source:</strong> <code>data/clean/telco_clean.csv</code>
+<strong>Pages:</strong> 4
+<strong>DAX measures:</strong> 15+
+<strong>Calculated columns:</strong> 6</p>
+<h3 id="calculated-columns-dax">Calculated columns (DAX)</h3>
+<pre><code class="language-dax">ChurnFlag =
+IF('telco_clean'[Churn] = &quot;Yes&quot;, 1, 0)
+
+CLV_Proxy =
+'telco_clean'[MonthlyCharges] * 'telco_clean'[tenure]
+
+AddonCount =
+(IF([OnlineSecurity]=&quot;Yes&quot;,1,0) + IF([OnlineBackup]=&quot;Yes&quot;,1,0) +
+ IF([DeviceProtection]=&quot;Yes&quot;,1,0) + IF([TechSupport]=&quot;Yes&quot;,1,0) +
+ IF([StreamingTV]=&quot;Yes&quot;,1,0) + IF([StreamingMovies]=&quot;Yes&quot;,1,0))
+
+TenureSegment =
+IF('telco_clean'[tenure] &lt;= 12, &quot;New&quot;,
+   IF('telco_clean'[tenure] &lt;= 36, &quot;Growing&quot;, &quot;Loyal&quot;))
+
+ChargeSegment =
+IF('telco_clean'[MonthlyCharges] &lt;= 35, &quot;Low&quot;,
+   IF('telco_clean'[MonthlyCharges] &lt;= 65, &quot;Mid&quot;, &quot;High&quot;))
+
+HighRisk =
+IF('telco_clean'[tenure] &lt;= 12 &amp;&amp; 'telco_clean'[MonthlyCharges] &gt;= 65, 1, 0)
+</code></pre>
+<h3 id="core-dax-measures">Core DAX measures</h3>
+<pre><code class="language-dax">Total Customers = DISTINCTCOUNT('telco_clean'[customerID])
+
+Churned Customers =
+CALCULATE([Total Customers], 'telco_clean'[ChurnFlag] = 1)
+
+Churn Rate = DIVIDE([Churned Customers], [Total Customers], 0)
+
+Total Monthly Revenue = SUM('telco_clean'[MonthlyCharges])
+
+Monthly Revenue Lost =
+CALCULATE(SUM('telco_clean'[MonthlyCharges]), 'telco_clean'[ChurnFlag] = 1)
+
+Churned Customer ARPU = DIVIDE([Monthly Revenue Lost], [Churned Customers], 0)
+
+Retained Customer ARPU =
+DIVIDE(
+    CALCULATE(SUM('telco_clean'[MonthlyCharges]), 'telco_clean'[ChurnFlag] = 0),
+    [Total Customers] - [Churned Customers],
+    0
+)
+
+High-Risk Segment Customers =
+CALCULATE([Total Customers], 'telco_clean'[HighRisk] = 1)
+
+High-Risk Churn Rate =
+DIVIDE(
+    CALCULATE([Churned Customers], 'telco_clean'[HighRisk] = 1),
+    [High-Risk Segment Customers],
+    0
+)
+
+Monthly Revenue in High-Risk Segment =
+CALCULATE(SUM('telco_clean'[MonthlyCharges]), 'telco_clean'[HighRisk] = 1)
+</code></pre>
+<h3 id="page-1-executive-summary">Page 1 — Executive Summary</h3>
+<p><strong>KPI cards:</strong> Total Customers (7,043) · Churned Customers (1,869) · Churn Rate (26.5%) ·
+Monthly Revenue Lost (~$139K) · High-Risk Customers (1,001) · High-Risk Churn Rate (66.4%)</p>
+<p><strong>Charts:</strong>
+- Churn Rate by Contract Type
+- Churn Rate by Customer Tenure
+- Churn Rate by Internet Service
+- Churn Rate by Payment Method
+- Customer Retention vs Churn (donut)</p>
+<p><strong>Slicers:</strong> Contract · InternetService</p>
+<p><strong>Text:</strong> Key Business Insight · Data Limitations · Data Source</p>
+<hr />
+<h3 id="page-2-churn-drivers-analysis">Page 2 — Churn Drivers Analysis</h3>
+<p><strong>13 charts:</strong>
+1. Churn Rate by Gender
+2. Churn Rate by Senior Citizen Status
+3. Churn Rate by Paperless Billing
+4. Churn Rate by Device Protection
+5. Churn Rate by Customer Tenure
+6. Churn Rate by Partner Status
+7. Churn Rate by Online Security
+8. Churn Rate by Online Backup
+9. Churn Rate by Payment Method
+10. Churn Rate by Dependents
+11. Churn Rate by Tech Support
+12. Churn Rate by Multiple Lines
+13. Churn Rate by Contract Type</p>
+<p><strong>Slicers:</strong> Contract · InternetService · Gender</p>
+<hr />
+<h3 id="page-3-customer-risk-revenue-analysis">Page 3 — Customer Risk &amp; Revenue Analysis</h3>
+<p><strong>KPI cards:</strong> High-Risk Customers (1,001) · High-Risk Churn Rate (66.4%) ·
+Monthly Revenue at Risk (~$81K) · Total Monthly Revenue Lost (~$139K)</p>
+<p><strong>Charts:</strong>
+- High-Risk Customers by Contract
+- High-Risk Customer Share by Contract
+- High-Risk Revenue Exposure by Contract
+- Actual Churn Rate by Contract
+- Churn Rate by Contract &amp; Internet Service (clustered bar)</p>
+<p><strong>Customer-level table (filtered to HighRisk = 1):</strong>
+customerID · Contract · InternetService · PaymentMethod · tenure · MonthlyCharges · Churn · HighRisk</p>
+<p><strong>Slicers:</strong> TenureSegment · ChargeSegment</p>
+<p><strong>Text:</strong> High-Risk definition explanation</p>
+<hr />
+<h3 id="page-4-financial-subscription-analysis">Page 4 — Financial &amp; Subscription Analysis</h3>
+<p><strong>KPI cards:</strong> Total Monthly Revenue (~$456K) · Monthly Revenue Lost (~$139K) ·
+Churned Customer ARPU ($74.44) · Retained Customer ARPU ($61.27)</p>
+<p><strong>Charts:</strong>
+1. Monthly Revenue Lost by Contract
+2. Monthly Revenue Lost by Internet Service
+3. Monthly Revenue by Payment Method
+4. Average Monthly Charges by Churn Status
+5. Average Monthly Charges by Contract
+6. Average Add-on Services by Churn Status
+7. Add-on Service Adoption Rate — Churned vs Retained (all 6 services)</p>
+<p><strong>Slicers:</strong> Contract · InternetService</p>
+<p><strong>Text:</strong> Key Business Insights · Data Limitation</p>
+<hr />
+<h2 id="11-key-findings">11. Key Findings</h2>
+<p>All churn rates are segment-level: churned ÷ total customers in that segment.</p>
+<h3 id="contract-type">Contract type</h3>
+<table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>Customers</th>
+<th>Churned</th>
+<th>Churn Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Month-to-month</td>
+<td>3,875</td>
+<td>1,655</td>
+<td>42.7%</td>
+</tr>
+<tr>
+<td>One year</td>
+<td>1,473</td>
+<td>166</td>
+<td>11.3%</td>
+</tr>
+<tr>
+<td>Two year</td>
+<td>1,695</td>
+<td>48</td>
+<td>2.8%</td>
+</tr>
+</tbody>
+</table>
+<p>Month-to-month churn is 15× the two-year rate.</p>
+<h3 id="tenure">Tenure</h3>
+<table>
+<thead>
+<tr>
+<th>Bucket</th>
+<th>Customers</th>
+<th>Churn Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–12 months</td>
+<td>2,186</td>
+<td>47.4%</td>
+</tr>
+<tr>
+<td>13–24 months</td>
+<td>1,024</td>
+<td>28.7%</td>
+</tr>
+<tr>
+<td>25–36 months</td>
+<td>832</td>
+<td>21.6%</td>
+</tr>
+<tr>
+<td>37–48 months</td>
+<td>676</td>
+<td>14.9%</td>
+</tr>
+<tr>
+<td>49–60 months</td>
+<td>586</td>
+<td>11.3%</td>
+</tr>
+<tr>
+<td>61–72 months</td>
+<td>739</td>
+<td>6.6%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payment-method">Payment method</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Customers</th>
+<th>Churn Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Electronic check</td>
+<td>2,365</td>
+<td>45.3%</td>
+</tr>
+<tr>
+<td>Mailed check</td>
+<td>1,612</td>
+<td>19.1%</td>
+</tr>
+<tr>
+<td>Bank transfer (automatic)</td>
+<td>1,544</td>
+<td>16.7%</td>
+</tr>
+<tr>
+<td>Credit card (automatic)</td>
+<td>1,522</td>
+<td>15.2%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="internet-service">Internet service</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Customers</th>
+<th>Churn Rate</th>
+<th>Avg Monthly Charges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fiber optic</td>
+<td>3,096</td>
+<td>41.9%</td>
+<td>~$91</td>
+</tr>
+<tr>
+<td>DSL</td>
+<td>2,421</td>
+<td>19.0%</td>
+<td>~$58</td>
+</tr>
+<tr>
+<td>No internet</td>
+<td>1,526</td>
+<td>7.4%</td>
+<td>~$21</td>
+</tr>
+</tbody>
+</table>
+<h3 id="senior-citizen-status">Senior citizen status</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Customers</th>
+<th>Churn Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Senior (1)</td>
+<td>1,142</td>
+<td>41.7%</td>
+</tr>
+<tr>
+<td>Non-senior (0)</td>
+<td>5,901</td>
+<td>23.6%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="add-on-adoption">Add-on adoption</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Retained</th>
+<th>Churned</th>
+<th>Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OnlineSecurity</td>
+<td>29.9%</td>
+<td>15.9%</td>
+<td>+14.0%</td>
+</tr>
+<tr>
+<td>TechSupport</td>
+<td>29.5%</td>
+<td>15.6%</td>
+<td>+13.9%</td>
+</tr>
+<tr>
+<td>OnlineBackup</td>
+<td>29.8%</td>
+<td>24.0%</td>
+<td>+5.8%</td>
+</tr>
+<tr>
+<td>DeviceProtection</td>
+<td>29.5%</td>
+<td>23.4%</td>
+<td>+6.1%</td>
+</tr>
+<tr>
+<td>StreamingTV</td>
+<td>29.0%</td>
+<td>29.3%</td>
+<td>-0.3%</td>
+</tr>
+<tr>
+<td>StreamingMovies</td>
+<td>28.5%</td>
+<td>28.3%</td>
+<td>+0.2%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="financial-summary">Financial summary</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total monthly revenue</td>
+<td>$456,117</td>
+</tr>
+<tr>
+<td>Monthly revenue from churned customers</td>
+<td>$139,131</td>
+</tr>
+<tr>
+<td>Revenue share from churned</td>
+<td>30.5%</td>
+</tr>
+<tr>
+<td>ARPU — retained</td>
+<td>$61.27/month</td>
+</tr>
+<tr>
+<td>ARPU — churned</td>
+<td>$74.44/month</td>
+</tr>
+<tr>
+<td>ARPU gap</td>
+<td>+$13.17/month (churned pay more)</td>
+</tr>
+<tr>
+<td>Avg tenure — retained</td>
+<td>37.6 months</td>
+</tr>
+<tr>
+<td>Avg tenure — churned</td>
+<td>18.0 months</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-business-insights">12. Business Insights</h2>
+<p>All findings are associations. They do not establish causation.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Insight</th>
+<th>Key Numbers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Contract type is the strongest single differentiator</td>
+<td>MTM: 42.7% vs Two-year: 2.8% — 15× difference</td>
+</tr>
+<tr>
+<td>02</td>
+<td>First year is the critical retention window</td>
+<td>0–12 mo: 47.4% vs 61–72 mo: 6.6%</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Fiber Optic customers churn most despite paying most</td>
+<td>41.9% churn at ~$91/month avg</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Electronic check associated with highest churn</td>
+<td>45.3% vs 15–16% for automatic methods</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Highest-risk combination: MTM + Fiber Optic</td>
+<td>2,128 customers, 54.6% churn rate</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Rule-based high-risk segment churns at 67.7%</td>
+<td>976 customers, 2.6× the base rate</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Churned customers pay more but stay half as long</td>
+<td>$74.44/mo vs $61.27/mo; 18 mo vs 37.6 mo</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Senior citizens churn at 1.8× the non-senior rate</td>
+<td>41.7% vs 23.6%</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Add-on adoption is associated with lower churn</td>
+<td>1.83 avg add-ons retained vs 1.27 churned</td>
+</tr>
+<tr>
+<td>10</td>
+<td>$139K/month in recurring revenue left with churned customers</td>
+<td>30.5% of total monthly base</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-recommendations">13. Recommendations</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Recommendation</th>
+<th>Addresses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Incentivise contract conversion in the first 12 months — price lock, bundle discount, or loyalty bonus</td>
+<td>Insights 01, 02, 06</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Investigate the Fiber Optic churn gap with exit surveys or service quality data before designing a response</td>
+<td>Insights 03, 05</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Promote automatic payment enrollment — reduces churn and payment friction</td>
+<td>Insight 04</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Design add-on adoption programs for new customers — focus on OnlineSecurity and TechSupport which show the largest retention gaps</td>
+<td>Insight 09</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Tailor support and billing for senior customers — simplify payment switching, offer phone-based support</td>
+<td>Insight 08</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important:</strong> Each recommendation includes a caveat — the association in this data
+does not guarantee the intervention will work. A/B testing is required before broad rollout.</p>
+<hr />
+<h2 id="14-limitations">14. Limitations</h2>
+<ol>
+<li>
+<p><strong>No causal inference</strong> — Cross-sectional observational data. Association ≠ causation.</p>
+</li>
+<li>
+<p><strong>No time dimension</strong> — Single snapshot. Cannot observe trends or how churn rates
+   changed over time.</p>
+</li>
+<li>
+<p><strong>No exit reason data</strong> — The dataset does not include why customers left. Pricing
+   complaints, service quality, competitor offers, and life events are all equally
+   plausible explanations.</p>
+</li>
+<li>
+<p><strong>Confounding</strong> — Attributes correlate with each other (Fiber Optic users are more
+   likely to be on month-to-month contracts). Independent contributions cannot be
+   isolated without a controlled model.</p>
+</li>
+<li>
+<p><strong>No predictive validity</strong> — Segment churn rates describe the past. They should
+   not be used to score individual customers without further validation.</p>
+</li>
+<li>
+<p><strong>Synthetic dataset</strong> — This is an illustrative dataset from IBM. Its distributions
+   may not match a real telecom company's customer base.</p>
+</li>
+</ol>
+<hr />
+<h2 id="15-what-makes-this-project-unique">15. What Makes This Project Unique</h2>
+<p>Most Telco churn portfolio projects on the internet follow the same pattern:
+load CSV → plot a few charts → train logistic regression → print accuracy. This
+project is different in several ways.</p>
+<p><strong>1. Business-driven rule-based segmentation</strong>
+Instead of relying on a model score, a transparent high-risk segment was defined
+using rules any stakeholder can understand and audit. The definition is documented,
+justified, and deliberately updated during Power BI development with the reasoning
+recorded.</p>
+<p><strong>2. Revenue exposure quantification</strong>
+The project goes beyond churn rate to answer: how much money is at risk?
+$139,131/month, $81K in the high-risk segment alone. These are the numbers a
+CFO cares about, not a 26.5% rate.</p>
+<p><strong>3. Consistent metric definitions across three tools</strong>
+Every number in Python, SQL, and Power BI traces back to the same cleaned CSV
+with the same definitions. Query 30 in SQL explicitly reconciles against Python.</p>
+<p><strong>4. Honest analytical caveats throughout</strong>
+Every notebook, every SQL file, every Power BI page, and this documentation all
+carry the same caveat: associations, not causation. This is rare in portfolio
+projects and is what professional data work requires.</p>
+<p><strong>5. CLV proxy labelled correctly</strong>
+MonthlyCharges × tenure is labelled as a historical billed-value approximation,
+not a prediction. The difference matters.</p>
+<p><strong>6. SQL goes beyond GROUP BY</strong>
+CTEs, window functions (RANK, running totals), multi-way cross-tabs with minimum
+cell size filters, and a reconciliation query. 30 queries across 7 analytical groups.</p>
+<p><strong>7. Customer-level drill-down in Power BI</strong>
+Page 3 includes a filtered table of individual high-risk customers — not just
+aggregated charts. A retention team could use this directly.</p>
+<hr />
+<h2 id="16-reproduction-steps">16. Reproduction Steps</h2>
+<pre><code class="language-powershell"># Step 1 — Clone the repository
+git clone https://github.com/hrts51/telco-churn-analytics.git
+cd telco-churn-analytics
+
+# Step 2 — Download the raw dataset from Kaggle
+# URL: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
+# Save to: data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv
+
+# Step 3 — Set up the Python environment
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+
+# Step 4 — Run notebooks in order
+jupyter nbconvert --to notebook --execute --inplace notebooks/01_data_understanding.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/02_eda.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/03_behavior_financial_analysis.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/04_segmentation_risk.ipynb
+
+# Step 5 — Build the SQLite database
+python sql/load_db.py
+
+# Step 6 — Run SQL queries
+# Option A: DB Browser for SQLite — open sql/telco_churn.db, paste from churn_analysis.sql
+# Option B: Python
+python -c &quot;
+import sqlite3
+con = sqlite3.connect('sql/telco_churn.db')
+cur = con.cursor()
+cur.execute('SELECT COUNT(*), SUM(ChurnFlag), ROUND(1.0*SUM(ChurnFlag)/COUNT(*)*100,1) FROM customers')
+print(cur.fetchone())
+con.close()
+&quot;
+
+# Step 7 — Open the Power BI dashboard
+# Open powerbi/telco_churn_dashboard.pbix in Power BI Desktop
+# If the data connection breaks: Home → Transform data → Data source settings → Change Source
+# Point to: data/clean/telco_clean.csv
+</code></pre>
+<hr />
+<h2 id="17-metric-definitions">17. Metric Definitions</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Definition</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Churn rate</td>
+<td>Churned customers ÷ all customers in segment</td>
+<td>All layers</td>
+</tr>
+<tr>
+<td>ARPU</td>
+<td>AVG(MonthlyCharges) for a segment</td>
+<td>NB 02, 03; SQL Q03; PBI Page 4</td>
+</tr>
+<tr>
+<td>Revenue exposure</td>
+<td>SUM(MonthlyCharges) for Churn="Yes"</td>
+<td>NB 03; SQL Q02; PBI Page 4</td>
+</tr>
+<tr>
+<td>CLV Proxy</td>
+<td>MonthlyCharges × tenure — historical approximation only</td>
+<td>NB 03; SQL Q17; PBI col</td>
+</tr>
+<tr>
+<td>Historical billed value</td>
+<td>TotalCharges as recorded in the dataset</td>
+<td>NB 03; SQL Q17</td>
+</tr>
+<tr>
+<td>AddonCount</td>
+<td>Count of 6 add-on columns set to "Yes" (0–6)</td>
+<td>NB 03, 04; SQL Q19; PBI col</td>
+</tr>
+<tr>
+<td>HighRisk (Python/SQL)</td>
+<td>MTM + tenure ≤ 12 mo + MonthlyCharges ≥ $65</td>
+<td>NB 04; SQL Q26</td>
+</tr>
+<tr>
+<td>HighRisk (Power BI)</td>
+<td>tenure ≤ 12 mo + MonthlyCharges ≥ $65 (all contracts)</td>
+<td>PBI Page 3</td>
+</tr>
+<tr>
+<td>TenureSegment</td>
+<td>New (0–12) / Growing (13–36) / Loyal (37–72)</td>
+<td>NB 04; SQL Q14; PBI col</td>
+</tr>
+<tr>
+<td>ChargeSegment</td>
+<td>Low ($0–35) / Mid ($35–65) / High ($65+)</td>
+<td>NB 04; SQL Q13; PBI col</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="18-git-history">18. Git History</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Commit hash</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>b5acffa</td>
+<td>Set up churn analysis project and clean source data</td>
+</tr>
+<tr>
+<td>2</td>
+<td>9407db3</td>
+<td>Complete EDA notebook with 8 charts and verified findings</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5317f2e</td>
+<td>Add notebooks 03 (financial analysis) and 04 (segmentation/risk)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>c4dca8c</td>
+<td>Add 30 verified SQL queries and SQLite database loader</td>
+</tr>
+<tr>
+<td>5</td>
+<td>f4b54e2</td>
+<td>Add Power BI dashboard plan and DAX measures documentation</td>
+</tr>
+<tr>
+<td>6</td>
+<td>5640ac4</td>
+<td>Add 10 insights, 5 recommendations, final report, and updated README</td>
+</tr>
+<tr>
+<td>7</td>
+<td>bc2f9e9</td>
+<td>Update README with Power BI dashboard file reference and instructions</td>
+</tr>
+<tr>
+<td>8</td>
+<td>a305483</td>
+<td>Add completed Power BI dashboard (telco_churn_dashboard.pbix)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>6aa5386</td>
+<td>Exclude auto-generated SQLite DB from tracking; rebuild with load_db.py</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0c243e7</td>
+<td>Add dashboard handover document and update README with final dashboard details</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of documentation.</em></p>
+  </div>
+
+</body>
+</html>
