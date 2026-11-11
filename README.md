@@ -104,7 +104,7 @@ python sql/load_db.py
 | CLV Proxy | MonthlyCharges × tenure | Notebook 03; SQL Q17 |
 | Historical billed value | TotalCharges (as recorded in dataset) | Notebooks 03; SQL Q17 |
 | AddonCount | Count of 6 add-on columns set to "Yes" | Notebooks 03, 04; SQL Q19 |
-| HighRisk flag | MTM + tenure ≤ 12 mo + MonthlyCharges ≥ $65 | Notebook 04; SQL Q26 |
+| HighRisk flag | tenure ≤ 12 mo AND MonthlyCharges ≥ $65 (all contract types) | Notebook 04; SQL Q26; Power BI Page 3 |
 
 **CLV Proxy note:** `MonthlyCharges × tenure` is an approximation of historical
 revenue. It is *not* a prediction of future lifetime value.
@@ -137,10 +137,35 @@ Open this file directly in Power BI Desktop — the data connection points to
 
 | Page | Content |
 |------|---------|
-| Executive Summary | 6 KPIs, churn by contract/tenure/internet/payment, donut chart, slicers |
-| Churn Drivers Analysis | 13 charts across all demographic and service attributes, 3 slicers |
-| Customer Risk & Revenue | High-risk segment KPIs, revenue exposure, 8-column customer table, slicers |
-| Financial & Subscription | Revenue KPIs, add-on adoption by churn, ARPU comparison, payment analysis |
+| Executive Summary | Total Customers, Churned, Churn Rate, Revenue Lost, High-Risk KPIs, churn by contract/tenure/internet/payment, donut chart, slicers |
+| Churn Drivers Analysis | 13 churn-rate charts across demographics and services, Contract/InternetService/Gender slicers |
+| Customer Risk & Revenue | High-risk KPIs (1,001 customers, 66.4% churn rate, ~$81K revenue), contract × internet service chart, 8-column customer-level table, TenureSegment/ChargeSegment slicers |
+| Financial & Subscription | Revenue KPIs ($456K total, $139K lost), ARPU comparison ($74.4 churned vs $61.3 retained), individual add-on adoption for all 6 services, revenue by contract/internet/payment |
+
+### High-risk segment definition
+
+```
+HighRisk = 1  when:
+  tenure <= 12 months
+  AND MonthlyCharges >= $65
+  (applies across all contract types)
+```
+
+This segment contains 1,001 customers with a 66.4% churn rate — 2.5x the overall base rate.
+
+### Calculated columns and measures
+
+**Columns:** ChurnFlag, CLV_Proxy, AddonCount, TenureSegment, ChargeSegment, HighRisk
+
+**Measures:** Total Customers, Churned Customers, Retained Customers, Churn Rate,
+Total Monthly Revenue, Monthly Revenue Lost, Churned Customer ARPU, Retained Customer ARPU,
+High-Risk Segment Customers, High-Risk Churn Rate, Monthly Revenue in High-Risk Segment,
+6 individual add-on adoption measures
+
+### Documentation
+- `powerbi/dashboard_handover.md` — full dashboard description, findings, and methodology
+- `powerbi/dashboard_plan.md` — original layout and visual specifications
+- `powerbi/dax_measures.md` — all DAX measures with formulas and usage notes
 
 ### If the data connection breaks after moving the project folder
 
@@ -149,10 +174,6 @@ Open this file directly in Power BI Desktop — the data connection points to
 3. Click **Change Source**
 4. Browse to the new location of `data/clean/telco_clean.csv`
 5. Click **OK → Close & Apply**
-
-### Documentation
-- `powerbi/dashboard_plan.md` — full layout and visual specifications
-- `powerbi/dax_measures.md` — all DAX measures with formulas and usage notes
 
 ---
 
@@ -177,3 +198,4 @@ Open this file directly in Power BI Desktop — the data connection points to
 | 5th | Add Power BI dashboard plan and DAX measures |
 | 6th | Add insights, recommendations, and final report |
 | 7th | Add completed Power BI dashboard (.pbix) |
+| 8th | Add dashboard handover document and update README |
