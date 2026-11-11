@@ -129,19 +129,30 @@ revenue. It is *not* a prediction of future lifetime value.
 
 ## Power BI dashboard
 
-A `.pbix` file requires Power BI Desktop and cannot be generated programmatically.
-The full dashboard specification — 4 pages, all slicers, visual types, and DAX
-measures — is documented in:
+**File:** `powerbi/telco_churn_dashboard.pbix`
+Open this file directly in Power BI Desktop — the data connection points to
+`data/clean/telco_clean.csv` in this project folder.
 
-- `powerbi/dashboard_plan.md` — layout and visual descriptions
-- `powerbi/dax_measures.md` — all measures with formulas and usage notes
+### Four dashboard pages
 
-**To build the dashboard:**
-1. Open Power BI Desktop
-2. Get Data → Text/CSV → `data/clean/telco_clean.csv`
-3. Verify data types in Power Query (see `powerbi/dashboard_plan.md`)
-4. Create measures from `powerbi/dax_measures.md`
-5. Build the 4 pages per the plan
+| Page | Content |
+|------|---------|
+| Executive Summary | 6 KPIs, churn by contract/tenure/internet/payment, donut chart, slicers |
+| Churn Drivers Analysis | 13 charts across all demographic and service attributes, 3 slicers |
+| Customer Risk & Revenue | High-risk segment KPIs, revenue exposure, 8-column customer table, slicers |
+| Financial & Subscription | Revenue KPIs, add-on adoption by churn, ARPU comparison, payment analysis |
+
+### If the data connection breaks after moving the project folder
+
+1. Open the `.pbix` file in Power BI Desktop
+2. Go to **Home → Transform data → Data source settings**
+3. Click **Change Source**
+4. Browse to the new location of `data/clean/telco_clean.csv`
+5. Click **OK → Close & Apply**
+
+### Documentation
+- `powerbi/dashboard_plan.md` — full layout and visual specifications
+- `powerbi/dax_measures.md` — all DAX measures with formulas and usage notes
 
 ---
 
@@ -165,3 +176,4 @@ measures — is documented in:
 | 4th | Add 30 verified SQL queries and SQLite database |
 | 5th | Add Power BI dashboard plan and DAX measures |
 | 6th | Add insights, recommendations, and final report |
+| 7th | Add completed Power BI dashboard (.pbix) |
